@@ -1,4 +1,5 @@
 all:
+	mkdir bin/
 	make -C TRAF
 	make -C GOL
 	make -C STUT
