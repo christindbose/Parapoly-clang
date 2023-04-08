@@ -71,6 +71,7 @@ __global__ void initOutEdge(ChiVertex<int, int>** vertex,
         }
     }
 }
+__managed__ int BFS_x;
 
 __global__ void BFS(ChiVertex<int, int>** vertex, GraphChiContext* context,
                     int iteration) {
@@ -109,6 +110,7 @@ __global__ void BFS(ChiVertex<int, int>** vertex, GraphChiContext* context,
                     int edgeValue;
                     edgeValue = outEdge->getValue();
                     if (edgeValue > curmin + 1) {
+                        //BFS_x= 1;
                         outEdge->setValue(curmin + 1);
                     }
                 }
