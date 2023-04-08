@@ -62,7 +62,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
-#include "../../graph_parser/parse.h"
+//#include "../../graph_parser/parse.h"
+#include <cuda_runtime_api.h>
+
+#include "../../graph_parser/parse.cpp"
+#include "../../graph_parser/util.cpp"
+
 #include "../../graph_parser/util.h"
 #include "kernel.cu"
 

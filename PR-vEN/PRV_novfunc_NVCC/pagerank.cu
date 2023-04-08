@@ -65,10 +65,11 @@
 //#include "../../graph_parser/parse.h"
 #include <cuda_runtime_api.h>
 
+#include "../../graph_parser/util.h"
+
 #include "../../graph_parser/parse.cpp"
 #include "../../graph_parser/util.cpp"
 
-#include "../../graph_parser/util.h"
 #include "kernel.cu"
 
 // Iteration count
@@ -203,7 +204,7 @@ int main(int argc, char **argv) {
     cudaDeviceSetLimit(cudaLimitMallocHeapSize, 4ULL * 1024 * 1024 * 1024);
     double timer3 = gettime();
 
-    VirtVertex<float, float> **vertex;
+    ChiVertex<float, float> **vertex;
     GraphChiContext *context;
     err = cudaMalloc(&vertex, num_nodes * sizeof(ChiVertex<float, float> *));
     if (err != cudaSuccess) {
