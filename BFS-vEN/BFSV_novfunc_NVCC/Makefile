@@ -1,23 +1,23 @@
-GENCODE_SM70 ?= --cuda-gpu-arch=sm_70
+GENCODE_SM70 ?= -gencode=arch=compute_70,code=\"sm_70,compute_70\"
 
 CPPSRC = ../../graph_parser/util.cpp ../../graph_parser/parse.cpp
 CUSRC =
-BASEEXE = BFSvEN_NOVF
+BASEEXE = BFSvEN_NOVF_NVCC
 # CUDA source files (compiled with cudacc)
 EXECUTABLE = ../../bin/$(BASEEXE)
 CUSRC += bfs.cu
 OPTS = -O3
 CUOPTS = $(GENCODE_SM70)
 INC = -I$(NVIDIA_COMPUTE_SDK_LOCATION)/../4.2/C/common/inc -I$(CUDA_INSTALL_PATH)/include
-LIBS = -L$(CUDA_INSTALL_PATH)/lib64 -L$(NVIDIA_COMPUTE_SDK_LOCATION)/../4.2/C/lib -lcudart -ldl -lrt -pthread
+LIBS = -L$(CUDA_INSTALL_PATH)/lib64 -L$(NVIDIA_COMPUTE_SDK_LOCATION)/../4.2/C/lib -lcudart -ldl -lrt 
 
 OBJS = $(notdir $(CPPSRC:.cpp=.o))
 
 all: 
-	clang++ -v $(NVOPTS) $(OPTS) $(CUOPTS) $(CUSRC) $(INC) -o $(EXECUTABLE) $(LIBS)
+	nvcc $(NVOPTS) $(OPTS) $(CUOPTS) $(CUSRC) $(INC) -o $(EXECUTABLE) $(LIBS)
 
 debug: 
-	clang++ -v -save-temps $(NVOPTS) $(OPTS) $(CUOPTS) $(CUSRC) $(INC) -o $(EXECUTABLE) $(LIBS)
+	nvcc --keep $(NVOPTS) $(OPTS) $(CUOPTS) $(CUSRC) $(INC) -o $(EXECUTABLE) $(LIBS)
 
 $(OBJS):
 	g++ -c $(CPPSRC) $(OPTS)
@@ -30,6 +30,7 @@ cleancucpp:
 
 cleanup:
 	rm -f *.cu.cpp
+	rm -f *.ii
 	rm -f *.fatbin
 	rm -f *.cui
 	rm -f *.s
@@ -39,4 +40,6 @@ cleanup:
 	rm -f *.o
 	rm -f *.bc
 	rm -f *.cpp
+	rm -f *.module_id
+	rm -f *.ptx
 	rm -f *.out
